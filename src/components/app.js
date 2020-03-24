@@ -3,6 +3,8 @@ import { Container, Row, Col} from "reactstrap";
 import Title from './title/title'
 import Output from './output/output'
 import Keypad  from './keypad/keypad'
+import Menu from './title/menu'
+import { connect } from 'react-redux';
 
 class App extends Component {
   render() {
@@ -13,6 +15,7 @@ class App extends Component {
             <Col md={{size: 4, offset: 4}}>
               <div className="calc-wrapper">
                 <Title  />
+                <Menu menuVisibility={this.props.menuVisibility}></Menu>
                 <Output />
                 <Keypad />
               </div>
@@ -24,4 +27,10 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = function(state) {
+  return {
+      menuVisibility: state.menuVisibility
+  }
+}
+
+export default connect(mapStateToProps)(App);

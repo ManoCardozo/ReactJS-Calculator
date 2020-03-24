@@ -2,6 +2,7 @@ import { ActionType } from '../constants/actionType';
 import { intialState } from '../constants/initialState';
 import { appConst } from '../constants/appConst';
 import { operator } from '../constants/operator';
+import { MenuVisibility } from '../constants/menuVisibility';
 
 let addDigit = (state, action) => {
   let output = state.output;
@@ -12,7 +13,7 @@ let addDigit = (state, action) => {
   if (!hasMaxLength)
   {
     let isInitial = output.display === intialState.output.display;
-
+    
     newValue = isInitial
       ? action.inputValue.toString()
       : newValue = newValue.toString() + action.inputValue.toString()
@@ -162,6 +163,32 @@ let toggleSign = (state) => {
   };
 };
 
+let toggleMenu = (state) => {
+  let visibility = state.menuVisibility === MenuVisibility.Hidden 
+    ? MenuVisibility.Shown 
+    : MenuVisibility.Hidden;
+
+  return {
+    ...state,
+    menuVisibility: visibility
+  };
+};
+
+let changeTheme = (state, action) => {
+  document.documentElement.classList.add('theme-transition')
+  document.documentElement.setAttribute('data-theme', action.theme)
+  window.setTimeout(function() {
+    document.documentElement.classList.remove('theme-transition')
+  }, 300);
+  
+  document.documentElement.setAttribute("data-theme", action.theme);
+
+  return {
+    ...state,
+    theme: action.theme
+  };
+};
+
 let clearDisplay = (state) => {
   return {
     ...state,
@@ -197,6 +224,12 @@ const reducer = (state, action) => {
     }
     case (ActionType.CLEAR_DISPLAY): {
       return clearDisplay(state);
+    }
+    case (ActionType.TOGGLE_MENU): {
+      return toggleMenu(state);
+    }
+    case (ActionType.CHANGE_THEME): {
+      return changeTheme(state, action);
     }
     default: {
       return state;

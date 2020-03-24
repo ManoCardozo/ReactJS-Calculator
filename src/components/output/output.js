@@ -7,7 +7,7 @@ import OutputExpression from "./outputExpression";
 class Output extends Component {
     render() {
         return (
-            <div>
+            <div className="output-container">
                 <Row noGutters={true}>
                     <Col xs={12}>
                         <OutputExpression expression={this.props.expression}></OutputExpression>
